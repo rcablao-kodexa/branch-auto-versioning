@@ -10,6 +10,7 @@ let curr_branch_version = "1.0";
 let curr_branch_patch_version = 1;
 let main_version_file_name = "VERSION";
 let branch_version_file_name = "version.yml";
+let is_single_entry = true;
 
 // Write to file
 function writeToFile(filename, data) {
@@ -101,25 +102,26 @@ async function main() {
 
     if (branch_index >= 0) {
       console.log("Updating entry in yaml");
+      let existing_branch_info = version_reference_file.branches[branch_index];
       if (
-        version_reference_file.branches[branch_index].major ===
-          version_reference_file.major_version &&
-        version_reference_file.branches[branch_index].minor ===
-          version_reference_file.minor_version
+        existing_branch_info.major === version_reference_file.major_version &&
+        existing_branch_info.minor === version_reference_file.minor_version
       ) {
-        curr_branch_patch_version =
-          version_reference_file.branches[branch_index].patch + 1;
+        curr_branch_patch_version = existing_branch_info.patch + 1;
       }
-
-      version_reference_file.branches[branch_index].patch =
-        curr_branch_patch_version;
-      version_reference_file.branches[branch_index].major =
-        version_reference_file.major_version;
-      version_reference_file.branches[branch_index].minor =
-        version_reference_file.minor_version;
+      version_reference_file.branches = is_single_entry
+        ? []
+        : version_reference_file.branches;
+      existing_branch_info.patch = curr_branch_patch_version;
+      existing_branch_info.major = version_reference_file.major_version;
+      existing_branch_info.minor = version_reference_file.minor_version;
+      version_reference_file.branches.push(existing_branch_info);
       writeToFile(branch_version_file_name, version_reference_file);
     } else {
       console.log("Adding entry to yaml");
+      version_reference_file.branches = is_single_entry
+        ? []
+        : version_reference_file.branches;
       version_reference_file.branches.push({
         name: curr_branch_name,
         major: version_reference_file.major_version,
