@@ -24,4 +24,4 @@ outputs:
     description: 'Combination of branch_version and feature_branch_name, set to null if not a feature branch'
 runs:
   using: 'node16'
-  main: 'index.js'
+  main: 'dist/index.js'
