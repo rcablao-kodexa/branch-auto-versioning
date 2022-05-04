@@ -1,0 +1,26 @@
+{
+  "name": "branch-auto-versioning",
+  "version": "1.0.0",
+  "description": "Update and track branch version using yaml file",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Romar Cablao <rcablao@kodexa.com>",
+  "license": "ISC",
+  "dependencies": {
+    "@actions/core": "^1.7.0",
+    "@actions/github": "^5.0.1",
+    "js-yaml": "^4.1.0",
+    "simple-git": "^3.7.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rcablao-kodexa/branch-auto-versioning.git"
+  },
+  "bugs": {
+    "url": "https://github.com/rcablao-kodexa/branch-auto-versioning/issues"
+  },
+  "homepage": "https://github.com/rcablao-kodexa/branch-auto-versioning#readme"
+}
