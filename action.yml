@@ -1,0 +1,27 @@
+name: 'Branch Auto Versioning'
+description: 'Update and track branch version using yaml file'
+inputs:
+  input_branch_version_file_name:
+    description: 'Filename of branch VERSION file (yaml file)'
+    required: true
+    default: 'version.yml'
+  input_main_version_file_name:
+    description: 'Filename of main VERSION file (plain text; output of Bump-N-Tag)'
+    required: true
+    default: 'VERSION'
+  input_major_version:
+    description: 'Major version (will override the major and minor version in file)'
+    required: false
+  input_minor_version:
+    description: 'Minor version (will override the major and minor version in file)'
+    required: false
+outputs:
+  branch_version:
+    description: 'The updated branch version'
+  feature_branch_name:
+    description: 'The trimmed branch name, set to null if not a feature branch'
+  feature_branch_version:
+    description: 'Combination of branch_version and feature_branch_name, set to null if not a feature branch'
+runs:
+  using: 'node16'
+  main: 'index.js'
