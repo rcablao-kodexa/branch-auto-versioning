@@ -1,4 +1,5 @@
 # Branch Auto Versioning
+[![Build](https://github.com/rcablao-kodexa/branch-auto-versioning/actions/workflows/build.yml/badge.svg)](https://github.com/rcablao-kodexa/branch-auto-versioning/actions/workflows/build.yml)
 
 Update and track branch version using YAML file
 
