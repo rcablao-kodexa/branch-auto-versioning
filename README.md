@@ -1,16 +1,16 @@
 # Branch Auto Versioning
 
-Update and track branch version using yaml file
+Update and track branch version using YAML file
 
 ## Inputs
 
 ### `input_branch_version_file_name`
 
-**Required** The name of the person to greet. Default `"version.yml"`.
+**Required** Filename of the branch VERSION file (yaml file). Default `"version.yml"`.
 
 ### `input_main_version_file_name`
 
-**Required** Filename of branch VERSION file (yaml file). Default `"VERSION"`.
+**Required** Filename of main VERSION file (yaml file). Default `"VERSION"`.
 
 ### `input_major_version`
 
@@ -32,12 +32,12 @@ The trimmed branch name, set to null if not a feature branch
 
 ### `feature_branch_version`
 
-Combination of branch_version and feature_branch_name, set to null if not a feature branch
+Combination of **branch_version** and **feature_branch_name**, set to null if not a feature branch
 
 ## Example usage
 
 ```yaml
-- name: Auto-versioning
+- name: Auto Versioning
   id: autoversioning
   uses: rcablao-kodexa/branch-auto-versioning@main
   with:
