@@ -1,0 +1,57 @@
+name: Build
+
+permissions:
+  contents: write
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - 'README.md'
+      - 'VERSION'
+
+concurrency: 
+  group: ci-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  "build":
+    name: Build Action
+    timeout-minutes: 20
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: Increment Version
+        id: version
+        run: |
+          VERSION=$(cat VERSION)
+          MAJOR=$(echo $VERSION | cut -d'.' -f1) 
+          MINOR=$(echo $VERSION | cut -d'.' -f2)
+          PATCH=$(echo $VERSION | cut -d'.' -f3)
+          PATCH=$(expr $PATCH + 1)
+          NEW_VERSION=$(echo $MAJOR.$MINOR.$PATCH)
+          echo "::set-output name=build_version::$NEW_VERSION"
+      - name: Install, Build and Push
+        run: |
+          # Install dependencies
+          npm install && npm i -g @vercel/ncc
+          npm run build
+          
+          # Update ./VERSION
+          echo ${{ steps.version.outputs.build_version }} > VERSION
+          
+          # Push changes
+          git config user.name "Branch-Auto-Versioning"
+          git config user.email "branch-auto-versioning@github-actions.com"
+          git add VERSION action.yml dist/*
+          git commit -m "Update build/dist and version" -m "[skip-ci]" || exit 0
+          git tag -a -m "Update release" ${{ steps.version.outputs.build_version }} || exit 0
+          git push --follow-tags || exit 0
